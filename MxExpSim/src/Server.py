@@ -5,19 +5,21 @@ Created on 13 fevr. 2013
 print ("serveur lance");
 # Server code
 
-import SimpleXMLRPCServer, time, threading, os
+import SimpleXMLRPCServer, time, threading, os, shutil
 
 
 class Server():
     def __init__(self):
-        self.Terminated=False
-        
+        self.terminated=False
+        self.suffix=".cbf"
+        self.port=8888
+        self.directoryOfRecording='/scisoft/pxsoft/data/mxexpsim/'
         
     def getTerminated(self):
-        return self.Terminated
+        return self.terminated
 
     def setTerminated(self, boolean):
-        self.Terminated = boolean 
+        self.terminated = boolean 
 
     def load_queue(self,clientParam):
         self.DictParameter =eval(clientParam)   
@@ -31,16 +33,16 @@ class Server():
         return 0
 
     def queue_status(self):
-        if  self.Terminated==False:
+        if  self.terminated==False:
             return "running"
         else:
             return "data collected"
 
 class ThreadCollect ( threading.Thread ):
-    def __init__(self,server, ):
+    def __init__(self,server):
         threading.Thread.__init__(self)
         self.server=server 
-        self.suffix=".cbf"
+       
    
     def run ( self):
        
@@ -51,16 +53,19 @@ class ThreadCollect ( threading.Thread ):
                 print imageIndex
                 fileName=queueEntry["prefix"]
                 fileName=fileName+"_"+queueEntry["run_number"]
-                fileName=fileName+"_%04d" % imageIndex+self.suffix
-                os.popen('cp /scisoft/pxsoft/data/mxexpsim/'+fileName+' '+queueEntry["directory"])
+                fileName=fileName+"_%04d" % imageIndex+self.server.suffix
+                filePath=os.path.join(self.server.directoryOfRecording,fileName)
+                shutil.copy(filePath, queueEntry["directory"])
                 print fileName
                 imageIndex=imageIndex+1
                 time.sleep(1)
         print "fin de collection "
         self.server.setTerminated(True)
-        
-    
-server = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", 8888))
-server.register_instance(Server())
-server.serve_forever()
+
+
+server= Server()      
+simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
+simpleXMLRPCServer.register_instance(server)        
+simpleXMLRPCServer.serve_forever()    
+
 
