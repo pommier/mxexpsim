@@ -44,8 +44,7 @@ class ThreadCollect ( threading.Thread ):
         self.server=server 
        
    
-    def run ( self):
-       
+    def run ( self):      
         for queueEntry in self.server.DictParameter:
             imageIndex=int(queueEntry["first_image"])
             lastImage=imageIndex+int(queueEntry["number_images"])
