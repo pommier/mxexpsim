@@ -5,14 +5,13 @@ Created on 13 fevr. 2013
 print ("serveur lance");
 # Server code
 
-import SimpleXMLRPCServer, time, threading
+import SimpleXMLRPCServer, time, threading, os
 
 
 class Server():
     def __init__(self):
-        import string
-        self.python_string = string
         self.Terminated=False
+        
         
     def getTerminated(self):
         return self.Terminated
@@ -41,6 +40,7 @@ class ThreadCollect ( threading.Thread ):
     def __init__(self,server, ):
         threading.Thread.__init__(self)
         self.server=server 
+        self.suffix=".cbf"
    
     def run ( self):
        
@@ -51,14 +51,13 @@ class ThreadCollect ( threading.Thread ):
                 print imageIndex
                 fileName=queueEntry["prefix"]
                 fileName=fileName+"_"+queueEntry["run_number"]
-                fileName=fileName+"_%04d.jpg" % imageIndex
+                fileName=fileName+"_%04d" % imageIndex+self.suffix
+                os.popen('cp /scisoft/pxsoft/data/mxexpsim/'+fileName+' '+queueEntry["directory"])
                 print fileName
                 imageIndex=imageIndex+1
                 time.sleep(1)
-        print  self.server.getTerminated()
         print "fin de collection "
         self.server.setTerminated(True)
-        print  self.server.getTerminated()
         
     
 server = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", 8888))

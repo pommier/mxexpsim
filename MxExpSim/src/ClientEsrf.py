@@ -1,6 +1,6 @@
 import xmlrpclib, time
 
-nQueue = 4
+nQueue = 1
 runNumber = nQueue
 listQueue = []
 
@@ -12,11 +12,11 @@ for index in range(nQueue):
   'comments': '',
   'current_osc_start': 0.0,
   'detector_mode': 'Hardware binned',
-  'directory': '/data/id23eh1/inhouse/opid231/20120801/RAW_DATA/queue_test_1',
+  'directory': '/users/pommier/DataCollected/',
   'do_inducedraddam': '',
   'energy': '',
   'exposure_time': '1',
-  'first_image': '10',
+  'first_image': '1',
   'gshg': '',
   'gsvg': '',
   'in_queue': 0,
@@ -32,14 +32,14 @@ for index in range(nQueue):
   'mad_4_energy': (False, '', ''),
   'mad_energies': 'pk - ip - rm - rm2',
   'motors': {},
-  'number_images': '5',
+  'number_images': '4',
   'number_passes': '1',
   'osc_range': '0.00',
   'osc_start': '0.00',
   'overlap': '0',
   'phi': '',
   'phiStart': 0,
-  'prefix': 'queue_test%d' % (index+1),
+  'prefix': 'ref-x%d' % (index+1),
   'process_directory': '/data/id23eh1/inhouse/opid231/20120801/PROCESSED_DATA/queue_test_1', 
   'processing': 'False',
   'residues': '',
