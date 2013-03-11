@@ -1,5 +1,5 @@
 package org.esrf.mxsim;
 
-public class ContextClass {
+public class Context {
 
 }

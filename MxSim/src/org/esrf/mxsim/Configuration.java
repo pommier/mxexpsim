@@ -1,10 +1,31 @@
 package org.esrf.mxsim;
 
-public class ConfigurationClass {
-	private string suffix;
+public class Configuration {
+	private String suffix;
+	private String sourceImageDirectory;
 	
 	
-	ConfigurationClass(){	
+	Configuration(){};	
+	
+
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+
+
+	public String getSourceImageDirectory() {
+		return sourceImageDirectory;
+	}
+
+
+	public void setSourceImageDirectory(String sourceImageDirectory) {
+		this.sourceImageDirectory = sourceImageDirectory;
 	};
 
 	
