@@ -2,12 +2,12 @@ package org.esrf.mxsim;
 
 public class Configuration {
 	private String suffix;
-	private String sourceImageDirectory;
+	private String sourceFileDirectory;
 	
-	
-	Configuration(){};	
-	
-
+	public Configuration(String suffix, String sourceFileDirectory) {
+		this.suffix = suffix;
+		this.sourceFileDirectory = sourceFileDirectory;
+	}
 
 	public String getSuffix() {
 		return suffix;
@@ -20,12 +20,12 @@ public class Configuration {
 
 
 	public String getSourceImageDirectory() {
-		return sourceImageDirectory;
+		return sourceFileDirectory;
 	}
 
 
 	public void setSourceImageDirectory(String sourceImageDirectory) {
-		this.sourceImageDirectory = sourceImageDirectory;
+		this.sourceFileDirectory = sourceImageDirectory;
 	};
 
 	

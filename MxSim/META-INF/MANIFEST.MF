@@ -3,3 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: MxSim
 Bundle-SymbolicName: MxSim
 Bundle-Version: 1.0.0.qualifier
+Import-Package: org.apache.commons.io
+Require-Bundle: org.junit,
+ org.junit
