@@ -114,7 +114,7 @@ public class MxSim {
 		logger.debug("init");
 		/*----- PROTECTED REGION ID(MxSim.initDevice) ENABLED START -----*/
 		
-		setState(DevState.OFF);
+		//	Put your device initialization code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.initDevice
 		xlogger.exit();
@@ -190,6 +190,7 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.getImageDirectory) ENABLED START -----*/
 		
+		//	Put read attribute code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.getImageDirectory
 		xlogger.exit();
@@ -203,7 +204,7 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.setImageDirectory) ENABLED START -----*/
 		
-		if (imageDirectory != null) this.imageDirectory = imageDirectory;
+		//	Put write attribute code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.setImageDirectory
 		xlogger.exit();
@@ -225,34 +226,11 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.getMotors) ENABLED START -----*/
 		
-		motors = "none";
+		//	Put read attribute code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.getMotors
 		xlogger.exit();
 		return motors;
-	}
-	
-	/**
-	 * Attribute suffix, String, Scalar, READ
-	 * description:
-	 *     
-	 */
-	@Attribute(name="suffix", isPolled=true, pollingPeriod=3000)
-	private String suffix;
-	/**
-	 * Read attribute suffix
-	 * 
-	 * @return attribute value
-	 */
-	public String getsuffix() {
-		xlogger.entry();
-		/*----- PROTECTED REGION ID(MxSim.getsuffix) ENABLED START -----*/
-		
-		//	Put read attribute code here
-		
-		/*----- PROTECTED REGION END -----*/	//	MxSim.getsuffix
-		xlogger.exit();
-		return suffix;
 	}
 	
 
@@ -300,7 +278,7 @@ public class MxSim {
 	public final String getStatus() throws DevFailed {
 		/*----- PROTECTED REGION ID(MxSim.getStatus) ENABLED START -----*/
 		
-		status = "MxSim is in OFF state";
+		//	Put status code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.getStatus
 		return status;
@@ -329,6 +307,22 @@ public class MxSim {
 		xlogger.exit();
 	}
 	
+	/**
+	 * Execute command "test".
+	 * description: 
+	 * @throws DevFailed if command execution failed.
+	 */
+	@Command(name="test", inTypeDesc="", outTypeDesc="")
+	public void test() throws DevFailed {
+		xlogger.entry();
+		/*----- PROTECTED REGION ID(MxSim.test) ENABLED START -----*/
+		
+		System.out.println("test");
+		
+		/*----- PROTECTED REGION END -----*/	//	MxSim.test
+		xlogger.exit();
+	}
+	
 
 	//========================================================
 	//	Programmer's methods
@@ -342,14 +336,27 @@ public class MxSim {
 
 	
 	
-	
+	 private static void startNoDB() throws DevFailed {
+			final int portNr = 12345;
+			System.setProperty("OAPort", Integer.toString(portNr));
+			ServerManager.getInstance().addClass(MxSim.class.getCanonicalName(), MxSim.class);
+			ServerManager.getInstance().startError(new String[] { "1", "-nodb", "-dlist", "tmp/test/device", },
+				MxSim.class.getSimpleName());
+		    }
+
 	
 	/**
 	 * Starts the server.
 	 * @param args program arguments (instance_name [-v[trace level]]  [-nodb [-dlist <device name list>] [-file=fileName]])
 	 */
 	public static void main(final String[] args) {
-		ServerManager.getInstance().start(args, MxSim.class);
+		try {
+		    startNoDB();
+		} catch (final DevFailed e) {
+		    logger.error(DevFailedUtils.toString(e));
+		}
+		// ServerManager.getInstance().start(args, MxSim.class);
 		System.out.println("------- Started -------------");
+	    
 	}
 }

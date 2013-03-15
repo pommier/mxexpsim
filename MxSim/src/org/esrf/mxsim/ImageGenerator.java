@@ -15,7 +15,7 @@ public class ImageGenerator extends Thread{
 			String sourceFileDirectory, String targetDirectory) {
 		super();
 		this.firstImageToCopy = firstImageNumber;
-		this.numberOfimages = numberOfimages;
+		this.numberOfimages = numberOfImages;
 		this.template=template;
 		this.sourceFileDirectory = sourceFileDirectory;
 		this.targetDirectory = targetDirectory;	
