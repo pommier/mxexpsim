@@ -11,7 +11,7 @@ public class ImageGenerator extends Thread{
 	private static Boolean terminated=false;
 	private String template;
 
-	public ImageGenerator(int firstImageNumber, int numberOfimages,String template,
+	public ImageGenerator(int firstImageNumber, int numberOfImages,String template,
 			String sourceFileDirectory, String targetDirectory) {
 		super();
 		this.firstImageToCopy = firstImageNumber;
