@@ -310,16 +310,34 @@ public class MxSim {
 	/**
 	 * Execute command "test".
 	 * description: 
+	 * @param testIn varTest
 	 * @throws DevFailed if command execution failed.
 	 */
-	@Command(name="test", inTypeDesc="", outTypeDesc="")
-	public void test() throws DevFailed {
+	@Command(name="test", inTypeDesc="varTest", outTypeDesc="")
+	public void test(String testIn) throws DevFailed {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.test) ENABLED START -----*/
 		
-		System.out.println("test");
+		System.out.println("echo test :"+testIn);
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.test
+		xlogger.exit();
+	}
+	
+	/**
+	 * Execute command "generateImages".
+	 * description: call the method run in the class ImageGenerator after built the constructor
+	 * @param generateImagesIn parameters
+	 * @throws DevFailed if command execution failed.
+	 */
+	@Command(name="generateImages", inTypeDesc="parameters", outTypeDesc="")
+	public void generateImages(String generateImagesIn) throws DevFailed {
+		xlogger.entry();
+		/*----- PROTECTED REGION ID(MxSim.generateImages) ENABLED START -----*/
+		
+		//	Put command code here
+		
+		/*----- PROTECTED REGION END -----*/	//	MxSim.generateImages
 		xlogger.exit();
 	}
 	
@@ -336,27 +354,14 @@ public class MxSim {
 
 	
 	
-	 private static void startNoDB() throws DevFailed {
-			final int portNr = 12345;
-			System.setProperty("OAPort", Integer.toString(portNr));
-			ServerManager.getInstance().addClass(MxSim.class.getCanonicalName(), MxSim.class);
-			ServerManager.getInstance().startError(new String[] { "1", "-nodb", "-dlist", "tmp/test/device", },
-				MxSim.class.getSimpleName());
-		    }
-
+	
 	
 	/**
 	 * Starts the server.
 	 * @param args program arguments (instance_name [-v[trace level]]  [-nodb [-dlist <device name list>] [-file=fileName]])
 	 */
 	public static void main(final String[] args) {
-		try {
-		    startNoDB();
-		} catch (final DevFailed e) {
-		    logger.error(DevFailedUtils.toString(e));
-		}
-		// ServerManager.getInstance().start(args, MxSim.class);
+		ServerManager.getInstance().start(args, MxSim.class);
 		System.out.println("------- Started -------------");
-	    
 	}
 }

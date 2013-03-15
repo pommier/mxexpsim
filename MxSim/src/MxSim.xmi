@@ -33,8 +33,17 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
     <commands name="test" description="" execMethod="test" displayLevel="OPERATOR" polledPeriod="0">
-      <argin description="">
+      <argin description="varTest">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
         <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="generateImages" description="call the method run in the class ImageGenerator after built the constructor" execMethod="generate_images" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="parameters">
+        <type xsi:type="pogoDsl:StringType"/>
       </argin>
       <argout description="">
         <type xsi:type="pogoDsl:VoidType"/>

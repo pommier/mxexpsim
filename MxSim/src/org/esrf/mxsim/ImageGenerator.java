@@ -34,9 +34,9 @@ public class ImageGenerator extends Thread{
 		int lastImage=firstImageToCopy+numberOfimages;
 		String fileName=null;			
 		while(imageIndex<=lastImage){	
-			int counterX = template.split("X").length - 1;
+			int counterX = template.split("#").length - 1;
 			String formatImageIndex = String.format("%0"+counterX+"d", imageIndex); 
-			fileName=template.replaceAll("X{"+counterX+"}", formatImageIndex);	
+			fileName=template.replaceAll("#{"+counterX+"}", formatImageIndex);	
 			File fileImageSource=new File(sourceFileDirectory,fileName);
 			System.out.println("path Image Source ="+fileImageSource.getPath());
 			File fileDestination=new File(targetDirectory+fileName);
