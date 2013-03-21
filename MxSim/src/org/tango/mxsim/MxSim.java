@@ -114,7 +114,7 @@ public class MxSim {
 		logger.debug("init");
 		/*----- PROTECTED REGION ID(MxSim.initDevice) ENABLED START -----*/
 		
-		setState(DevState.OFF);
+		//	Put your device initialization code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.initDevice
 		xlogger.exit();
@@ -190,6 +190,7 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.getImageDirectory) ENABLED START -----*/
 		
+		//	Put read attribute code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.getImageDirectory
 		xlogger.exit();
@@ -203,7 +204,7 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.setImageDirectory) ENABLED START -----*/
 		
-		if (imageDirectory != null) this.imageDirectory = imageDirectory;
+		//	Put write attribute code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.setImageDirectory
 		xlogger.exit();
@@ -225,34 +226,11 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.getMotors) ENABLED START -----*/
 		
-		motors = "none";
+		//	Put read attribute code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.getMotors
 		xlogger.exit();
 		return motors;
-	}
-	
-	/**
-	 * Attribute suffix, String, Scalar, READ
-	 * description:
-	 *     
-	 */
-	@Attribute(name="suffix", isPolled=true, pollingPeriod=3000)
-	private String suffix;
-	/**
-	 * Read attribute suffix
-	 * 
-	 * @return attribute value
-	 */
-	public String getsuffix() {
-		xlogger.entry();
-		/*----- PROTECTED REGION ID(MxSim.getsuffix) ENABLED START -----*/
-		
-		//	Put read attribute code here
-		
-		/*----- PROTECTED REGION END -----*/	//	MxSim.getsuffix
-		xlogger.exit();
-		return suffix;
 	}
 	
 
@@ -300,7 +278,7 @@ public class MxSim {
 	public final String getStatus() throws DevFailed {
 		/*----- PROTECTED REGION ID(MxSim.getStatus) ENABLED START -----*/
 		
-		status = "MxSim is in OFF state";
+		//	Put status code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.getStatus
 		return status;
@@ -326,6 +304,40 @@ public class MxSim {
 		//	Put command code here
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.startDataCollect
+		xlogger.exit();
+	}
+	
+	/**
+	 * Execute command "test".
+	 * description: 
+	 * @param testIn varTest
+	 * @throws DevFailed if command execution failed.
+	 */
+	@Command(name="test", inTypeDesc="varTest", outTypeDesc="")
+	public void test(String testIn) throws DevFailed {
+		xlogger.entry();
+		/*----- PROTECTED REGION ID(MxSim.test) ENABLED START -----*/
+		
+		System.out.println("echo test :"+testIn);
+		
+		/*----- PROTECTED REGION END -----*/	//	MxSim.test
+		xlogger.exit();
+	}
+	
+	/**
+	 * Execute command "generateImages".
+	 * description: call the method run in the class ImageGenerator after built the constructor
+	 * @param generateImagesIn parameters
+	 * @throws DevFailed if command execution failed.
+	 */
+	@Command(name="generateImages", inTypeDesc="parameters", outTypeDesc="")
+	public void generateImages(String generateImagesIn) throws DevFailed {
+		xlogger.entry();
+		/*----- PROTECTED REGION ID(MxSim.generateImages) ENABLED START -----*/
+		
+		//	Put command code here
+		
+		/*----- PROTECTED REGION END -----*/	//	MxSim.generateImages
 		xlogger.exit();
 	}
 	

@@ -55,7 +55,7 @@ public class ImageGeneratorTest {
 	@Test
 	public void testImageGenerator() {
 	
-		ImageGenerator generator = new ImageGenerator(0, 4, "img-test_0_XXXX.testexpsim", "/tmp/sourceTmpTest", "/tmp/destinationTmpTest/");
+		ImageGenerator generator = new ImageGenerator(0, 4, "img-test_0_####.testexpsim", "/tmp/sourceTmpTest", "/tmp/destinationTmpTest/");
 
 		generator.start();
 		while (!generator.status()){
