@@ -7,7 +7,18 @@ Created on 13 fevr. 2013
 
 import SimpleXMLRPCServer, time, threading, os, shutil,PyTango
 
+playlist = {}
+playlist["nom"] = "MeshowRandom"
+playlist["musiques"] = []
+playlist["musiques"].append("Best Improvisation Ever 2")
+playlist["musiques"].append("My Theory (Bonus)")
+playlist["nom"] = "john"
+playlist["titre"] = []
+playlist["titre"].append("star wars")
+playlist["titre"].append("mickey")
 
+print(playlist)
+print(json.dumps(playlist))
 
 
 

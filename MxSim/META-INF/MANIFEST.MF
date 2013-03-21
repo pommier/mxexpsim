@@ -7,4 +7,5 @@ Import-Package: org.apache.commons.io
 Require-Bundle: org.junit,
  org.junit
 Bundle-ClassPath: commons-io-2.4.jar,
- junit-4.10.jar
+ junit-4.10.jar,
+ java-json.jar

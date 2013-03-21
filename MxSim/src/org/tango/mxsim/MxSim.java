@@ -43,6 +43,10 @@
 package org.tango.mxsim;
 
 /*----- PROTECTED REGION ID(MxSim.imports) ENABLED START -----*/
+import org.esrf.mxsim.Configuration;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.ext.XLogger;
@@ -312,13 +316,26 @@ public class MxSim {
 	 * description: 
 	 * @param testIn varTest
 	 * @throws DevFailed if command execution failed.
+	 * @throws JSONException 
 	 */
 	@Command(name="test", inTypeDesc="varTest", outTypeDesc="")
 	public void test(String testIn) throws DevFailed {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.test) ENABLED START -----*/
 		
-		System.out.println("echo test :"+testIn);
+			try {
+				JSONObject jsonObj = new JSONObject(testIn);
+
+				//String titre = (String) jsonObj.get("musique");
+				System.out.println("test"+jsonObj);
+				System.out.println(jsonObj.get("musiques"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		System.out.println("echo titre :"+testIn);
+		
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.test
 		xlogger.exit();
@@ -334,8 +351,24 @@ public class MxSim {
 	public void generateImages(String generateImagesIn) throws DevFailed {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.generateImages) ENABLED START -----*/
-		
-		//	Put command code here
+
+		Configuration config=new Configuration(".testexpsim", "/tmp/sourceTmpTest");
+		try {
+			JSONObject jsonObj = new JSONObject(generateImagesIn);
+			//template ="img-test_0_####.testexpsim"
+			System.out.println("first image ="+(String) jsonObj.get("first_image"));
+			System.out.println("number of image ="+(String) jsonObj.get("number_images"));
+			System.out.println("Template ="+jsonObj.get("template")+config.getSuffix());
+			System.out.println("Source ="+config.getSourceImageDirectory());
+			System.out.println("Destination ="+(String) jsonObj.get("process_directory"));
+		//	ImageGenerator generator = new ImageGenerator(jsonObj.get("first_image"), jsonObj.get("number_images"),jsonObj.get("template")+Configuration.getSuffix(), Configuration.getSourceImageDirectory(),(String) jsonObj.get("process_directory"));
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.generateImages
 		xlogger.exit();
@@ -346,8 +379,13 @@ public class MxSim {
 	//	Programmer's methods
 	//========================================================
 	/*----- PROTECTED REGION ID(MxSim.methods) ENABLED START -----*/
-	
-	//	Put your own methods here
+	 private static void startNoDB() throws DevFailed {
+			final int portNr = 12345;
+			System.setProperty("OAPort", Integer.toString(portNr));
+			ServerManager.getInstance().addClass(MxSim.class.getCanonicalName(), MxSim.class);
+			ServerManager.getInstance().startError(new String[] { "1", "-nodb", "-dlist", "tmp/test/device", },
+				MxSim.class.getSimpleName());
+		    }
 	
 	/*----- PROTECTED REGION END -----*/	//	MxSim.methods
 
@@ -361,7 +399,12 @@ public class MxSim {
 	 * @param args program arguments (instance_name [-v[trace level]]  [-nodb [-dlist <device name list>] [-file=fileName]])
 	 */
 	public static void main(final String[] args) {
-		ServerManager.getInstance().start(args, MxSim.class);
+		try {
+		    startNoDB();
+		} catch (final DevFailed e) {
+		    logger.error(DevFailedUtils.toString(e));
+		}
+		// ServerManager.getInstance().start(args, MxSim.class);
 		System.out.println("------- Started -------------");
-	}
+	    }
 }

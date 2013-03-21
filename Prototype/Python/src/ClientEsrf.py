@@ -1,6 +1,6 @@
 import xmlrpclib, time
 
-nQueue = 1
+nQueue = 2
 runNumber = nQueue
 listQueue = []
 
@@ -56,14 +56,14 @@ s = xmlrpclib.ServerProxy("http://localhost:8888")
 def run():
     strQueue = "%r" % listQueue
     s.load_queue(strQueue)
-    t1 = time.time()
+   # t1 = time.time()
     s.start_queue()
-    time.sleep(0.1)
-    while s.queue_status() == "running":
-        print s.queue_status()
-        print "Waiting for queue collect to finish..."
-        time.sleep(0.5)
-    t2 = time.time()
-    print "Elapsed time: %.2f s" % (t2-t1)
+   # time.sleep(0.1)
+   # while s.queue_status() == "running":
+   #     print s.queue_status()
+   #     print "Waiting for queue collect to finish..."
+   #     time.sleep(0.5)
+   # t2 = time.time()
+   # print "Elapsed time: %.2f s" % (t2-t1)
 
 run()

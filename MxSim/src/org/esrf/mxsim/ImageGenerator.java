@@ -27,6 +27,8 @@ public class ImageGenerator extends Thread{
 		else
 			return true;
 	}
+	
+	
 
 	public void run(){
 		System.out.println("run");
