@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="java-json.jar"/>
+	<classpathentry exported="true" kind="lib" path="junit-4.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="commons-io-2.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/users/pommier/Downloads/junit-4.10.jar"/>
-	<classpathentry kind="lib" path="/users/pommier/Downloads/commons-io-2.4/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/segfs/tango/release/java/lib/TangORB.jar"/>
+	<classpathentry kind="lib" path="/mntdirect/_segfs/tango/release/java/lib/JTangoServer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

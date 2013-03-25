@@ -8,7 +8,8 @@ print ("serveur lance");
 import SimpleXMLRPCServer, time, threading, os, shutil
 
 
-class Server():
+class Server(object):
+    
     def __init__(self):
         self.terminated=False
         self.suffix=".cbf"
@@ -66,5 +67,3 @@ server= Server()
 simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
 simpleXMLRPCServer.register_instance(server)        
 simpleXMLRPCServer.serve_forever()    
-
-

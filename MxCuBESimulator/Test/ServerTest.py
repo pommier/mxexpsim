@@ -1,6 +1,12 @@
-import xmlrpclib, time
+'''
+Created on Mar 22, 2013
 
-nQueue = 2
+@author: pommier
+'''
+import unittest, Server , time
+
+
+nQueue = 1
 runNumber = nQueue
 listQueue = []
 
@@ -51,19 +57,25 @@ for index in range(nQueue):
   'tth': ''}
     listQueue.append(dictQueueEntry)
 
-s = xmlrpclib.ServerProxy("http://localhost:8888")
+class Test(unittest.TestCase):
 
-def run():
-    strQueue = "%r" % listQueue
-    s.load_queue(strQueue)
-   # t1 = time.time()
-    s.start_queue()
-   # time.sleep(0.1)
-   # while s.queue_status() == "running":
-   #     print s.queue_status()
-   #     print "Waiting for queue collect to finish..."
-   #     time.sleep(0.5)
-   # t2 = time.time()
-   # print "Elapsed time: %.2f s" % (t2-t1)
 
-run()
+    def testName(self):
+        ServerMxCubeSimulator=Server.Server()
+        strQueue = "%r" % listQueue
+        ServerMxCubeSimulator.load_queue(strQueue)
+        t1 = time.time()
+        ServerMxCubeSimulator.start_queue()
+        time.sleep(0.1)
+        while ServerMxCubeSimulator.queue_status() == "running":
+            print ServerMxCubeSimulator.queue_status()
+            print "Waiting for queue collect to finish..."
+            time.sleep(0.5)
+        t2 = time.time()
+        print "Elapsed time: %.2f s" % (t2-t1)
+        pass
+
+
+if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testName']
+    unittest.main()
