@@ -5,7 +5,7 @@ Created on 13 fevr. 2013
 print ("serveur lance");
 # Server code
 
-import SimpleXMLRPCServer, time, threading, os, shutil,PyTango,json
+import threading,PyTango,json, SimpleXMLRPCServer,time
 
 
 class Server():
@@ -50,14 +50,24 @@ class ThreadCollect ( threading.Thread ):
             # dict = {}
             # dict["template"] = queueEntry["template"]
             # dict["process_directory"] =queueEntry["directory"]
-            tangotest.command_inout("generateImages",json.dumps(queueEntry))     
-
+            tangotest.command_inout("startGeneratingImages",json.dumps(queueEntry)) 
+            processImage=False
+            while  processImage==False:
+                #processImage=tangotest.read_attribute("ImageStatut") 
+                time.sleep(0.5)
+                processImage=tangotest.imageStatut
+                print "Server *** processimage = "+ str(processImage)
+               # processImage=True
+            
         print "fin de collection "
         self.server.setTerminated(True)
   
 
-server= Server()
-simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
-simpleXMLRPCServer.register_instance(server)
-simpleXMLRPCServer.serve_forever()
-
+def launchServer(): 
+    server= Server()     
+    simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
+    simpleXMLRPCServer.register_instance(server)        
+    simpleXMLRPCServer.serve_forever()    
+    
+if __name__ == "__main__":
+    launchServer()    

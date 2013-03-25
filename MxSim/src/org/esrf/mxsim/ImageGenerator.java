@@ -22,6 +22,7 @@ public class ImageGenerator extends Thread{
 	}
 
 	public Boolean status(){
+		System.out.println("get status");
 		if(!terminated)
 			return false;
 		else
@@ -49,7 +50,7 @@ public class ImageGenerator extends Thread{
 				e.printStackTrace();
 			}	
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
