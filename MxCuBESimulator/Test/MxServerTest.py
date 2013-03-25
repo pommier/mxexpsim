@@ -5,7 +5,6 @@ Created on Mar 22, 2013
 '''
 import unittest, Server , time, os, shutil
 
-
 nQueue = 1
 runNumber = nQueue
 listQueue = []
@@ -79,14 +78,12 @@ class Test(unittest.TestCase):
             except IOError:
                 pass
 
-
     def tearDown(self):
         if  os.path.exists('/tmp/sourceTmpTest'):    
             shutil.rmtree('/tmp/sourceTmpTest')
           
         if  os.path.exists('/tmp/destinationTmpTest'): 
             shutil.rmtree('/tmp/destinationTmpTest')
-
         pass
 
     def testName(self):
@@ -105,8 +102,6 @@ class Test(unittest.TestCase):
         print "Elapsed time: %.2f s" % (t2-t1)       
         pass
 
-
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
     Server.launchServer();
     unittest.main()

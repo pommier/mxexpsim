@@ -207,7 +207,6 @@ public class MxSim {
 	public void setImageStatut(boolean imageStatut){
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.setimageStatut) ENABLED START -----*/
-		System.out.println("setimage status :"+imageStatut );
 		this.imageStatut=imageStatut;
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.setimageStatut

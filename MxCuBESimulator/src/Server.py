@@ -5,16 +5,12 @@ Created on 13 fevr. 2013
 print ("serveur lance");
 # Server code
 
-import threading,PyTango,json, SimpleXMLRPCServer,time
-
+import threading,PyTango,json, SimpleXMLRPCServer
 
 class Server():
     def __init__(self):
         self.terminated=False
-        self.suffix=".cbf"
         self.port=8888
-        self.directoryOfRecording='/scisoft/pxsoft/data/mxexpsim/'
-        
         
     def getTerminated(self):
         return self.terminated
@@ -27,7 +23,6 @@ class Server():
         return 0
        
     def start_queue(self):
-
         collect = ThreadCollect(self)
         collect.setName ( 'thread de collection des donnees' )
         collect.start()
@@ -47,21 +42,12 @@ class ThreadCollect ( threading.Thread ):
     def run ( self):
         tangotest=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
         for queueEntry in self.server.DictParameter:        
-            # dict = {}
-            # dict["template"] = queueEntry["template"]
-            # dict["process_directory"] =queueEntry["directory"]
             tangotest.command_inout("startGeneratingImages",json.dumps(queueEntry)) 
             processImage=False
-            while  processImage==False:
-                #processImage=tangotest.read_attribute("ImageStatut") 
-                time.sleep(0.5)
-                processImage=tangotest.imageStatut
-                print "Server *** processimage = "+ str(processImage)
-               # processImage=True
-            
+            while  processImage==False:             
+                processImage=tangotest.imageStatut 
         print "fin de collection "
         self.server.setTerminated(True)
-  
 
 def launchServer(): 
     server= Server()     

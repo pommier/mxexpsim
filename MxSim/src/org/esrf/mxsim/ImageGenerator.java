@@ -22,15 +22,12 @@ public class ImageGenerator extends Thread{
 	}
 
 	public Boolean status(){
-		System.out.println("get status");
 		if(!terminated)
 			return false;
 		else
 			return true;
 	}
 	
-	
-
 	public void run(){
 		System.out.println("run");
 		int imageIndex=firstImageToCopy;
@@ -50,23 +47,12 @@ public class ImageGenerator extends Thread{
 				e.printStackTrace();
 			}	
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
 			imageIndex++;
 		}
-
-		/** add one file to make wrong the unit test **/
-		/*	File testFile=new File ("/tmp/sourceTmpTest/img-test_0_0009.testexpsim");
-		try {
-			testFile.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		terminated=true;
 	}
 }
-
-
