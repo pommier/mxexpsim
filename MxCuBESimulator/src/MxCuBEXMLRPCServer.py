@@ -7,8 +7,10 @@ print ("serveur lance");
 
 import threading,PyTango,json, SimpleXMLRPCServer
 
-class Server():
+
+class MxCBESimulator():
     def __init__(self):
+        self.server=None
         self.terminated=False
         self.port=8888
         
@@ -33,7 +35,8 @@ class Server():
             return "running"
         else:
             return "data collected"
-
+  
+            
 class ThreadCollect ( threading.Thread ):
     def __init__(self,server):
         threading.Thread.__init__(self)
@@ -48,12 +51,28 @@ class ThreadCollect ( threading.Thread ):
                 processImage=tangotest.imageStatut 
         print "fin de collection "
         self.server.setTerminated(True)
+  
 
-def launchServer(): 
-    server= Server()     
-    simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
-    simpleXMLRPCServer.register_instance(server)        
-    simpleXMLRPCServer.serve_forever()    
-    
-if __name__ == "__main__":
-    launchServer()    
+
+class MxCuBEXMLRPCServer ( threading.Thread ):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        print "server init"
+        self.simpleXMLRPCServer=None
+        
+    def run(self): 
+        print "serverLaunch"
+        server= MxCBESimulator()      
+        self.simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
+        self.simpleXMLRPCServer.register_instance(server)        
+        self.simpleXMLRPCServer.serve_forever()  
+        
+    def serverLaunch(self):
+        self.start()    
+        
+    def stopServer(self):
+        print "close"
+        self.simpleXMLRPCServer.shutdown()
+        
+        
+        

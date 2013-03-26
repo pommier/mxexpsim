@@ -291,9 +291,9 @@ public class MxSim {
 			System.out.println("number of image ="+(String) jsonObj.get("number_images"));
 			System.out.println("Template ="+jsonObj.get("template")+config.getSuffix());
 			System.out.println("Source ="+config.getSourceImageDirectory());				
-			System.out.println("Destination ="+(String) jsonObj.get("process_directory"));
+			System.out.println("Destination ="+(String) jsonObj.get("directory"));
 			
-			generator = new ImageGenerator(Integer.parseInt((String) jsonObj.get("first_image")),Integer.parseInt((String) jsonObj.get("number_images")),jsonObj.get("template")+config.getSuffix(), config.getSourceImageDirectory(),(String) jsonObj.get("process_directory")+"/");
+			generator = new ImageGenerator(Integer.parseInt((String) jsonObj.get("first_image")),Integer.parseInt((String) jsonObj.get("number_images")),jsonObj.get("template")+config.getSuffix(), config.getSourceImageDirectory(),(String) jsonObj.get("directory")+"/");
 			generator.start();
 			
 		} catch (JSONException e) {

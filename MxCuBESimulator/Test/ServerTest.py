@@ -3,7 +3,7 @@ Created on Mar 22, 2013
 
 @author: pommier
 '''
-import unittest, Server , time
+import unittest, Server , time, SimpleXMLRPCServer
 
 
 nQueue = 1
@@ -56,11 +56,12 @@ for index in range(nQueue):
   'transmission': '100.0',
   'tth': ''}
     listQueue.append(dictQueueEntry)
-
+   
 class Test(unittest.TestCase):
 
 
     def testName(self):
+       
         ServerMxCubeSimulator=Server.Server()
         strQueue = "%r" % listQueue
         ServerMxCubeSimulator.load_queue(strQueue)

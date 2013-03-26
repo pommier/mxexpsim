@@ -5,10 +5,10 @@ Created on Mar 22, 2013
 '''
 import SimpleXMLRPCServer, Server
 
-
-        
-server= Server.Server()     
-simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
-simpleXMLRPCServer.register_instance(server)        
-simpleXMLRPCServer.serve_forever()    
+#
+#        
+#server= Server.Server()     
+#simpleXMLRPCServer = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost", server.port))
+#simpleXMLRPCServer.register_instance(server)        
+#simpleXMLRPCServer.serve_forever()    
 
