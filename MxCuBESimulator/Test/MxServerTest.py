@@ -9,43 +9,38 @@ class Test(unittest.TestCase):
     
     def __init__(self, methodName='runTest'):
         unittest.TestCase.__init__(self, methodName=methodName)
-        self.server=None
+        self.serverXMLRPC=None
+        self.serverMxCubeSimulator=None
+        self.destinationDirectorypath=None
+        self.fileNumberSource=None
+        self.fileNumberDestination=None
     
     def setUp(self):
-        self.server=MxCuBEXMLRPCServer.MxCuBEXMLRPCServer()
-        self.server.serverLaunch()
-        
-        if not os.path.exists('/tmp/sourceTmpTest'):   
-            try:
-                os.mkdir('/tmp/sourceTmpTest')
-            except OSError, e:
-                print e.errno, e.strerror, e.filename
-          
-        if not os.path.exists('/tmp/destinationTmpTest'):    
-            try:
-                os.mkdir('/tmp/destinationTmpTest')
-            except OSError, e:
-                print e.errno, e.strerror, e.filename
-        pass
-    
+        self.serverXMLRPC=MxCuBEXMLRPCServer.MxCuBEXMLRPCServer()
+        self.serverXMLRPC.serverLaunch()
+        self.sourceDirectorypath = tempfile.mkdtemp()
+        self.destinationDirectorypath = tempfile.mkdtemp()
+        time.sleep(1)
+        configuration={'sourceDirectoryPath':  self.sourceDirectorypath,'suffix':'.testexpsim'}
+        self.serverMxCubeSimulator=xmlrpclib.ServerProxy("http://localhost:8888")
+        self.serverMxCubeSimulator.setConfiguration(configuration)
         for i in range(5):
             try:
-                open("/tmp/sourceTmpTest/queue_test1_1_000"+str(i)+".testexpsim", "w")
+                open(self.sourceDirectorypath+"/queue_test1_1_000"+str(i)+".testexpsim", "w")
             except IOError:
                 pass
+        self.fileNumberSource = len(os.listdir(self.sourceDirectorypath))    
+        pass
 
     def tearDown(self):
-        self.server.stopServer()
-        if  os.path.exists('/tmp/sourceTmpTest'):    
-            shutil.rmtree('/tmp/sourceTmpTest')
-          
-        if  os.path.exists('/tmp/destinationTmpTest'): 
-            shutil.rmtree('/tmp/destinationTmpTest')
+        self.serverXMLRPC.stopServer()
+        if  os.path.exists(self.sourceDirectorypath):    
+            shutil.rmtree(self.sourceDirectorypath)
+        if  os.path.exists(self.destinationDirectorypath): 
+            shutil.rmtree(self.destinationDirectorypath)
         pass
 
     def testName(self):
-  
-        
         nQueue = 1
         runNumber = nQueue
         listQueue = []
@@ -58,7 +53,7 @@ class Test(unittest.TestCase):
           'comments': '',
           'current_osc_start': 0.0,
           'detector_mode': 'Hardware binned',
-          'directory': '/tmp/destinationTmpTest',
+          'directory': self.destinationDirectorypath,
           'do_inducedraddam': '',
           'energy': '',
           'exposure_time': '1',
@@ -96,21 +91,21 @@ class Test(unittest.TestCase):
           'transmission': '100.0',
           'tth': ''}
             listQueue.append(dictQueueEntry)
-        ServerMxCubeSimulator = xmlrpclib.ServerProxy("http://localhost:8888")
-     
+
         strQueue = "%r" % listQueue
-        ServerMxCubeSimulator.load_queue(strQueue)
+        self.serverMxCubeSimulator.load_queue(strQueue)
         t1 = time.time()
-        ServerMxCubeSimulator.start_queue()
+        self.serverMxCubeSimulator.start_queue()
         time.sleep(0.1)
-        while ServerMxCubeSimulator.queue_status() == "running":
-            print ServerMxCubeSimulator.queue_status()
+        while  self.serverMxCubeSimulator.queue_status() == "running":
+            print  self.serverMxCubeSimulator.queue_status()
             print "Waiting for queue collect to finish..."
             time.sleep(0.5)
         t2 = time.time()
-        print "Elapsed time: %.2f s" % (t2-t1)       
+        print "Elapsed time: %.2f s" % (t2-t1)
+        self.fileNumberDestination = len(os.listdir(self.destinationDirectorypath))          
+        assert(self.fileNumberDestination==self.fileNumberSource) 
         pass
 
 if __name__ == "__main__":
-   # Server.launchServer();
     unittest.main()

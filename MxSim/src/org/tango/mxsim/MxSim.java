@@ -92,7 +92,7 @@ public class MxSim {
     /*----- PROTECTED REGION ID(MxSim.variables) ENABLED START -----*/
 
 	private ImageGenerator generator;
-
+	private Configuration config= new Configuration();
 	/*----- PROTECTED REGION END -----*/	//	MxSim.variables
 	/*----- PROTECTED REGION ID(MxSim.private) ENABLED START -----*/
 
@@ -282,11 +282,10 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.startGeneratingImages) ENABLED START -----*/
 
-		Configuration config=new Configuration(".testexpsim", "/tmp/sourceTmpTest");
+		
 		try {
 	
 			JSONObject jsonObj = new JSONObject(startGeneratingImagesIn);
-			//template ="img-test_0_####.testexpsim"
 			System.out.println("first image ="+(String) jsonObj.get("first_image"));
 			System.out.println("number of image ="+(String) jsonObj.get("number_images"));
 			System.out.println("Template ="+jsonObj.get("template")+config.getSuffix());
@@ -306,6 +305,32 @@ public class MxSim {
 		xlogger.exit();
 	}
 	
+	/**
+	 * Execute command "setSourcePath".
+	 * description: set the source path directory to the configuration class
+	 * @param setSourcePathIn 
+	 * @throws DevFailed if command execution failed.
+	 */
+	@Command(name="setSourcePath", inTypeDesc="", outTypeDesc="")
+	public void setSourcePath(String setSourcePathIn) throws DevFailed {
+		xlogger.entry();
+/*		----- PROTECTED REGION ID(MxSim.setSourcePath) ENABLED START -----*/	
+		try {		
+			JSONObject jsonObj = new JSONObject(setSourcePathIn);	
+			System.out.println("source path ="+(String) jsonObj.get("sourceDirectoryPath"));
+			System.out.println("suffix ="+(String) jsonObj.get("suffix"));
+			this.config=new Configuration((String) jsonObj.get("suffix"), (String) jsonObj.get("sourceDirectoryPath"));
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("set source Path OK");
+		/*----- PROTECTED REGION END -----*/	//	MxSim.setSourcePath
+		xlogger.exit();
+	}
+	
 
 	//========================================================
 	//	Programmer's methods
@@ -319,15 +344,8 @@ public class MxSim {
 		MxSim.class.getSimpleName());
 	}
 
-
-
 	/*----- PROTECTED REGION END -----*/	//	MxSim.methods
 
-
-	
-	
-	
-	
 	/**
 	 * Starts the server.
 	 * @param args program arguments (instance_name [-v[trace level]]  [-nodb [-dlist <device name list>] [-file=fileName]])

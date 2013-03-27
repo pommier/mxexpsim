@@ -12,7 +12,7 @@ class MxCBESimulator():
     def __init__(self):
         self.server=None
         self.terminated=False
-        self.port=8888
+        self.port=8888 
         
     def getTerminated(self):
         return self.terminated
@@ -36,6 +36,11 @@ class MxCBESimulator():
         else:
             return "data collected"
   
+    def setConfiguration(self,configuration):
+        print "setConfiguration connection tango :"
+        tangotest2=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
+        tangotest2.command_inout("setSourcePath",json.dumps(configuration)) 
+        return 0
             
 class ThreadCollect ( threading.Thread ):
     def __init__(self,server):
@@ -51,8 +56,6 @@ class ThreadCollect ( threading.Thread ):
                 processImage=tangotest.imageStatut 
         print "fin de collection "
         self.server.setTerminated(True)
-  
-
 
 class MxCuBEXMLRPCServer ( threading.Thread ):
     def __init__(self):

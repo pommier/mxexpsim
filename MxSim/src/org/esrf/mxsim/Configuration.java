@@ -4,6 +4,8 @@ public class Configuration {
 	private String suffix;
 	private String sourceFileDirectory;
 	
+	public Configuration(){};
+	
 	public Configuration(String suffix, String sourceFileDirectory) {
 		this.suffix = suffix;
 		this.sourceFileDirectory = sourceFileDirectory;
