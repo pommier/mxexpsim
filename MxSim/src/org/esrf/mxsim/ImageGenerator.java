@@ -8,7 +8,8 @@ public class ImageGenerator extends Thread{
 	private int numberOfimages;
 	private String sourceFileDirectory;
 	private String targetDirectory;
-	private static Boolean terminated=false;
+//	private static Boolean terminated=false;
+	private Boolean terminated=false;
 	private String template;
 
 	public ImageGenerator(int firstImageNumber, int numberOfImages,String template,
@@ -29,12 +30,16 @@ public class ImageGenerator extends Thread{
 	}
 	
 	public void run(){
+		this.terminated = false;
 		System.out.println("run");
 		int imageIndex=firstImageToCopy;
 		int lastImage=firstImageToCopy+numberOfimages;
 		String fileName=null;			
-		while(imageIndex<=lastImage){	
+		while(imageIndex<lastImage){	
 			int counterX = template.split("#").length - 1;
+			System.out.println("["+template+"]");
+			System.out.println(template.split("#").length);
+			System.out.println("%0"+counterX+"d");
 			String formatImageIndex = String.format("%0"+counterX+"d", imageIndex); 
 			fileName=template.replaceAll("#{"+counterX+"}", formatImageIndex);	
 			File fileImageSource=new File(sourceFileDirectory,fileName);
