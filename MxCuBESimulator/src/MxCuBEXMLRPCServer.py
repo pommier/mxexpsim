@@ -31,11 +31,9 @@ class MxCBESimulator():
         return 0
 
     def queue_status(self):
-        if self.terminated==False:
-            return "running"
-        else:
-            return "successful"
-  
+        tangoStatus=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
+        return tangoStatus.imageStatut
+
     def setConfiguration(self,configuration):
         print "setConfiguration connection tango :"
         tangotest2=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
@@ -57,8 +55,8 @@ class ThreadCollect ( threading.Thread ):
             while  processImage=="running":                           
                 processImage=tangotest.imageStatut                 
                 time.sleep(1)
-        print processImage
-        print "fin de collection "
+        print "status MxCuBESERVER = "+processImage
+        print "Data collected "
         self.server.setTerminated(True)
 
 class MxCuBEXMLRPCServer ( threading.Thread ):

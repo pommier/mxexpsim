@@ -319,8 +319,7 @@ public class MxSim {
 		try {		
 			JSONObject jsonObj = new JSONObject(setSourcePathIn);	
 			System.out.println("source path ="+(String) jsonObj.get("sourceDirectoryPath"));
-			System.out.println("suffix ="+(String) jsonObj.get("suffix"));
-			this.config=new Configuration((String) jsonObj.get("suffix"), (String) jsonObj.get("sourceDirectoryPath"));
+			this.config=new Configuration((String) jsonObj.get("sourceDirectoryPath"));
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
         self.sourceDirectorypath = tempfile.mkdtemp()
         self.destinationDirectorypath = tempfile.mkdtemp()
         time.sleep(1)
-        configuration={'sourceDirectoryPath':  self.sourceDirectorypath,'suffix':'.testexpsim'}
+        configuration={'sourceDirectoryPath':  self.sourceDirectorypath}
         self.serverMxCubeSimulator=xmlrpclib.ServerProxy("http://localhost:8888")
         self.serverMxCubeSimulator.setConfiguration(configuration)
         for i in range(5):
@@ -102,6 +102,7 @@ class Test(unittest.TestCase):
             print "Waiting for queue collect to finish..."
             time.sleep(0.5)
         t2 = time.time()
+        print "Status client = "+self.serverMxCubeSimulator.queue_status()
         print "Elapsed time: %.2f s" % (t2-t1)
         self.fileNumberDestination = len(os.listdir(self.destinationDirectorypath))          
         assert(self.fileNumberDestination==self.fileNumberSource) 
