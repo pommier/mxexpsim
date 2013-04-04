@@ -5,7 +5,7 @@ Created on 13 fevr. 2013
 print ("serveur lance");
 # Server code
 
-import threading,PyTango,json, SimpleXMLRPCServer
+import threading,PyTango,json, SimpleXMLRPCServer, time
 
 
 class MxCBESimulator():
@@ -34,7 +34,7 @@ class MxCBESimulator():
         if self.terminated==False:
             return "running"
         else:
-            return "data collected"
+            return "successful"
   
     def setConfiguration(self,configuration):
         print "setConfiguration connection tango :"
@@ -49,11 +49,14 @@ class ThreadCollect ( threading.Thread ):
    
     def run ( self):
         tangotest=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
+        self.server.setTerminated(False)
         for queueEntry in self.server.DictParameter:        
             tangotest.command_inout("startGeneratingImages",json.dumps(queueEntry)) 
+            time.sleep(1)
             processImage=False
             while  processImage==False:             
                 processImage=tangotest.imageStatut 
+                time.sleep(1)
         print "fin de collection "
         self.server.setTerminated(True)
 
@@ -76,6 +79,9 @@ class MxCuBEXMLRPCServer ( threading.Thread ):
     def stopServer(self):
         print "close"
         self.simpleXMLRPCServer.shutdown()
+        
+    def serve_forever(self):
+        self.join()
         
         
         
