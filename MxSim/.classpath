@@ -10,7 +10,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/segfs/tango/release/java/lib/TangORB.jar"/>
-	<classpathentry kind="lib" path="/mntdirect/_segfs/tango/release/java/lib/JTangoServer.jar"/>
+	<classpathentry kind="lib" path="JTangoServer.jar"/>
+	<classpathentry kind="lib" path="TangORB.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
