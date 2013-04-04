@@ -282,23 +282,24 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.startGeneratingImages) ENABLED START -----*/
 
-		
+		setImageStatut(false);
 		try {
 	
 			JSONObject jsonObj = new JSONObject(startGeneratingImagesIn);
 			System.out.println("first image ="+(String) jsonObj.get("first_image"));
 			System.out.println("number of image ="+(String) jsonObj.get("number_images"));
-			System.out.println("Template ="+jsonObj.get("template")+config.getSuffix());
+			System.out.println("Template ="+jsonObj.get("template"));
 			System.out.println("Source ="+config.getSourceImageDirectory());				
 			System.out.println("Destination ="+(String) jsonObj.get("directory"));
 			
-			generator = new ImageGenerator(Integer.parseInt((String) jsonObj.get("first_image")),Integer.parseInt((String) jsonObj.get("number_images")),jsonObj.get("template")+config.getSuffix(), config.getSourceImageDirectory(),(String) jsonObj.get("directory")+"/");
+			generator = new ImageGenerator(Integer.parseInt((String) jsonObj.get("first_image")),Integer.parseInt((String) jsonObj.get("number_images")),jsonObj.get("template").toString(), config.getSourceImageDirectory(),(String) jsonObj.get("directory")+"/");
 			generator.start();
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setImageStatut(true);
 	
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.startGeneratingImages

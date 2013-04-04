@@ -29,7 +29,7 @@ class Test(unittest.TestCase):
                 open(self.sourceDirectorypath+"/queue_test1_1_000"+str(i)+".testexpsim", "w")
             except IOError:
                 pass
-        self.fileNumberSource = len(os.listdir(self.sourceDirectorypath))    
+        self.fileNumberSource = len(os.listdir(self.sourceDirectorypath)) - 1   
         pass
 
     def tearDown(self):
@@ -87,7 +87,7 @@ class Test(unittest.TestCase):
           'resolution': '',
           'run_number': '%d' % runNumber, 
           'sum_images': (False, ''),
-          'template': 'queue_test%d_%d_####' % (index+1, runNumber),
+          'template': 'queue_test%d_%d_####.testexpsim' % (index+1, runNumber),
           'transmission': '100.0',
           'tth': ''}
             listQueue.append(dictQueueEntry)
