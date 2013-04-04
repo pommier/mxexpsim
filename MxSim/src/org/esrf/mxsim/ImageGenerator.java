@@ -8,9 +8,8 @@ public class ImageGenerator extends Thread{
 	private int numberOfimages;
 	private String sourceFileDirectory;
 	private String targetDirectory;
-//	private static Boolean terminated=false;
-	private Boolean terminated=false;
 	private String template;
+	private String collectStatus="successful";
 
 	public ImageGenerator(int firstImageNumber, int numberOfImages,String template,
 			String sourceFileDirectory, String targetDirectory) {
@@ -22,24 +21,19 @@ public class ImageGenerator extends Thread{
 		this.targetDirectory = targetDirectory;	
 	}
 
-	public Boolean status(){
-		if(!terminated)
-			return false;
-		else
-			return true;
+	public String status(){
+		return this.collectStatus;
 	}
 	
 	public void run(){
-		this.terminated = false;
 		System.out.println("run");
 		int imageIndex=firstImageToCopy;
 		int lastImage=firstImageToCopy+numberOfimages;
-		String fileName=null;			
-		while(imageIndex<lastImage){	
+		String fileName=null;	
+		this.collectStatus="running";
+		boolean errorRaise=false;
+		while(imageIndex<lastImage && !errorRaise){	
 			int counterX = template.split("#").length - 1;
-			System.out.println("["+template+"]");
-			System.out.println(template.split("#").length);
-			System.out.println("%0"+counterX+"d");
 			String formatImageIndex = String.format("%0"+counterX+"d", imageIndex); 
 			fileName=template.replaceAll("#{"+counterX+"}", formatImageIndex);	
 			File fileImageSource=new File(sourceFileDirectory,fileName);
@@ -49,7 +43,9 @@ public class ImageGenerator extends Thread{
 			try {
 				FileUtils.copyFile(fileImageSource, fileDestination);
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				this.collectStatus="failure";
+				errorRaise=true;
 			}	
 			try {
 				Thread.sleep(1000);
@@ -58,6 +54,8 @@ public class ImageGenerator extends Thread{
 			}
 			imageIndex++;
 		}
-		terminated=true;
+		
+		if (!errorRaise)
+			this.collectStatus="successful";
 	}
 }

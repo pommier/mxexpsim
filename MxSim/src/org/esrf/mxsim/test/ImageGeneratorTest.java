@@ -37,7 +37,7 @@ public class ImageGeneratorTest {
 		}
 
 		/* Create 4 files to test it into the function */
-		for(int i=0;i<5;i++){
+		for(int i=0;i<4;i++){
 			File testFile=new File ("/tmp/sourceTmpTest/img-test_0_000"+i+".testexpsim");
 			try {
 				if (testFile.createNewFile()){
@@ -56,17 +56,32 @@ public class ImageGeneratorTest {
 	public void testImageGenerator() {
 	
 		ImageGenerator generator = new ImageGenerator(0, 4, "img-test_0_####.testexpsim", "/tmp/sourceTmpTest", "/tmp/destinationTmpTest/");
-
 		generator.start();
-		while (!generator.status()){
+		int numberLoopStatus=0;
+		while ((generator.status().equals("failure") || generator.status().equals("successful")) && numberLoopStatus<5){
+			try {
+				Thread.sleep(1000);
+				numberLoopStatus++;
+				System.out.println(numberLoopStatus);
+			} catch (InterruptedException e) {				
+				e.printStackTrace();
+			}
+		}
+
+		assertTrue("Time out waiting for running status",numberLoopStatus<5);
+		numberLoopStatus=0;
+		while (generator.status().equals("running") && numberLoopStatus<5){
+		
 			System.out.println("Collecting Data");
 			try {
 				Thread.sleep(1000);
+				numberLoopStatus++;
 			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
 		}	
-		
+		assertTrue("Time out waiting for successful or failure status",numberLoopStatus<5);
+		System.out.println(generator.status());
 		assertEquals(sourceFolder.list().length, destinationFolder.list().length);	
 		System.out.println(" data collected successfully !");
 	}

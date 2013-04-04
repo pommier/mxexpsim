@@ -53,10 +53,11 @@ class ThreadCollect ( threading.Thread ):
         for queueEntry in self.server.DictParameter:        
             tangotest.command_inout("startGeneratingImages",json.dumps(queueEntry)) 
             time.sleep(1)
-            processImage=False
-            while  processImage==False:             
-                processImage=tangotest.imageStatut 
+            processImage="running"
+            while  processImage=="running":                           
+                processImage=tangotest.imageStatut                 
                 time.sleep(1)
+        print processImage
         print "fin de collection "
         self.server.setTerminated(True)
 

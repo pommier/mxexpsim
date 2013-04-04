@@ -191,7 +191,7 @@ public class SaveMxSim {
 	 * 
 	 * @return attribute value
 	 */
-	public boolean getImageStatut() {
+	public String getImageStatut() {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.getimageStatut) ENABLED START -----*/
 		

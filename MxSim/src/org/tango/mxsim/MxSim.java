@@ -185,13 +185,13 @@ public class MxSim {
 	 *     
 	 */
 	@Attribute(name="imageStatut")
-	private boolean imageStatut;
+	private String imageStatut;
 	/**
 	 * Read attribute imageStatut
 	 * 
 	 * @return attribute value
 	 */
-	public boolean getImageStatut() {
+	public String getImageStatut() {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.getimageStatut) ENABLED START -----*/
 		
@@ -204,7 +204,7 @@ public class MxSim {
 	 * Write attribute imageStatut
 	 * @param  imageStatut value to write
 	 */
-	public void setImageStatut(boolean imageStatut){
+	public void setImageStatut(String imageStatut){
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.setimageStatut) ENABLED START -----*/
 		this.imageStatut=imageStatut;
@@ -282,7 +282,7 @@ public class MxSim {
 		xlogger.entry();
 		/*----- PROTECTED REGION ID(MxSim.startGeneratingImages) ENABLED START -----*/
 
-		setImageStatut(false);
+		//setImageStatut("running");
 		try {
 	
 			JSONObject jsonObj = new JSONObject(startGeneratingImagesIn);
@@ -299,7 +299,7 @@ public class MxSim {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setImageStatut(true);
+		//setImageStatut("successful");
 	
 		
 		/*----- PROTECTED REGION END -----*/	//	MxSim.startGeneratingImages
