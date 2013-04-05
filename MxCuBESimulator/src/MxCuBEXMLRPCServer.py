@@ -7,18 +7,17 @@ print ("serveur lance");
 
 import threading,PyTango,json, SimpleXMLRPCServer, time
 
-
 class MxCBESimulator():
     def __init__(self):
         self.server=None
-        self.terminated=False
+        self.imageStatus="running"
         self.port=8888 
         
     def getTerminated(self):
-        return self.terminated
+        return self.imageStatus
 
-    def setTerminated(self, boolean):
-        self.terminated = boolean
+    def setTerminated(self, status):
+        self.imageStatus = status
 
     def load_queue(self,clientParam):
         self.DictParameter =eval(clientParam)
@@ -31,14 +30,23 @@ class MxCBESimulator():
         return 0
 
     def queue_status(self):
-        tangoStatus=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
-        return tangoStatus.imageStatut
+        return self.imageStatus
+        
 
     def setConfiguration(self,configuration):
         print "setConfiguration connection tango :"
         tangotest2=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
         tangotest2.command_inout("setSourcePath",json.dumps(configuration)) 
         return 0
+    
+    def grid_info(self):
+        grid={"x1": -0.050,
+        "y1": -0.050,
+        "dx_mm": 0.1,
+        "dy_mm": 0.1,
+        "steps_x": 3,
+        "steps_y": 3}
+        return grid
             
 class ThreadCollect ( threading.Thread ):
     def __init__(self,server):
@@ -47,17 +55,23 @@ class ThreadCollect ( threading.Thread ):
    
     def run ( self):
         tangotest=PyTango.DeviceProxy("tango://localhost:12345/tmp/test/device#dbase=no");
-        self.server.setTerminated(False)
-        for queueEntry in self.server.DictParameter:        
-            tangotest.command_inout("startGeneratingImages",json.dumps(queueEntry)) 
-            time.sleep(1)
-            processImage="running"
-            while  processImage=="running":                           
-                processImage=tangotest.imageStatut                 
-                time.sleep(1)
+        processImage="running"
+        for queueEntry in self.server.DictParameter:         
+            if processImage!="failure":
+                processImage="running"
+                tangotest.command_inout("startGeneratingImages",json.dumps(queueEntry)) 
+                time.sleep(1)       
+                while  processImage=="running":                           
+                    processImage=tangotest.imageStatut                 
+                    time.sleep(1)
+            else:
+                break
         print "status MxCuBESERVER = "+processImage
         print "Data collected "
-        self.server.setTerminated(True)
+        if processImage=="successful":           
+            self.server.setTerminated("successful")
+        else:
+            self.server.setTerminated("failure")
 
 class MxCuBEXMLRPCServer ( threading.Thread ):
     def __init__(self):
