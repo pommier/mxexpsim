@@ -24,6 +24,7 @@ class MxCBESimulator():
         return 0
        
     def start_queue(self):
+        self.imageStatus = "running"
         collect = ThreadCollect(self)
         collect.setName ( 'thread de collection des donnees' )
         collect.start()
@@ -71,7 +72,7 @@ class ThreadCollect ( threading.Thread ):
         if processImage=="successful":           
             self.server.setTerminated("successful")
         else:
-            self.server.setTerminated("failure")
+            self.server.setTerminated("failed")
 
 class MxCuBEXMLRPCServer ( threading.Thread ):
     def __init__(self):
