@@ -11,12 +11,9 @@ class MxCBESimulator():
     def __init__(self):
         self.server=None
         self.imageStatus="running"
-        self.port=8888 
-        
-    def getTerminated(self):
-        return self.imageStatus
+        self.port=8888       
 
-    def setTerminated(self, status):
+    def setImageStatus(self, status):
         self.imageStatus = status
 
     def load_queue(self,clientParam):
@@ -69,9 +66,9 @@ class ThreadCollect ( threading.Thread ):
         print "status MxCuBESERVER = "+processImage
         print "Data collected "
         if processImage=="successful":           
-            self.server.setTerminated("successful")
+            self.server.setImageStatus("successful")
         else:
-            self.server.setTerminated("failure")
+            self.server.setImageStatus("failure")
 
 class MxCuBEXMLRPCServer ( threading.Thread ):
     def __init__(self):
