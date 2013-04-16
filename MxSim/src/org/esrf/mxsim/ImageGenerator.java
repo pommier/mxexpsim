@@ -40,13 +40,17 @@ public class ImageGenerator extends Thread{
 			System.out.println("path Image Source ="+fileImageSource.getPath());
 			File fileDestination=new File(targetDirectory+fileName);
 			System.out.println("path destination ="+fileDestination.getPath());
-			try {
-				FileUtils.copyFile(fileImageSource, fileDestination);
-			} catch (IOException e) {
-				//e.printStackTrace();
-				this.collectStatus="failure";
-				errorRaise=true;
-			}	
+			if (fileDestination.exists()) {
+				System.out.println("File exists, not copied.");
+			} else {
+				try {
+					FileUtils.copyFile(fileImageSource, fileDestination);
+				} catch (IOException e) {
+					//e.printStackTrace();
+					this.collectStatus="failure";
+					errorRaise=true;
+				}
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {				
